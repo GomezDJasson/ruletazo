@@ -6,3 +6,31 @@ html,
 body {
   overflow-x: hidden;
 }
+
+@media (min-width: 1024px) {
+  .options-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #6366f1 transparent;
+  }
+
+  .options-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .options-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .options-scroll::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: #6366f1;
+  }
+
+  .dark .options-scroll {
+    scrollbar-color: #4f46e5 transparent;
+  }
+
+  .dark .options-scroll::-webkit-scrollbar-thumb {
+    background: #4f46e5;
+  }
+}

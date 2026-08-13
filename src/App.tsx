@@ -120,7 +120,7 @@ function App() {
           </div>
 
           {/* Panel */}
-          <aside className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-colors duration-300 dark:border-zinc-800 dark:bg-zinc-900">
+          <aside className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-colors duration-300 dark:border-zinc-800 dark:bg-zinc-900 lg:max-h-[calc(100vh-140px)]">
 
             <div className="mb-5 flex items-center gap-3">
               <div className="rounded-xl bg-indigo-100 p-2 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400">

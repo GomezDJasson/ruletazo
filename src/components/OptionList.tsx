@@ -35,7 +35,7 @@ export default function OptionList({
   };
 
   return (
-    <div className="mt-6 space-y-2">
+    <div className="options-scroll mt-6 space-y-2 lg:max-h-[calc(100vh-390px)] lg:overflow-y-auto lg:pr-2">
       {options.map((option, index) => (
         <div
           key={`${option}-${index}`}

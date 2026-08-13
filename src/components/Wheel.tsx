@@ -168,7 +168,7 @@ export default function Wheel({
   }
 
   return (
-    <div className="flex min-w-0 flex-col items-center py-10">
+    <div className="flex min-w-0 flex-col items-center py-10 lg:py-4">
 
       {/* Indicador */}
       <div className="relative z-10 text-4xl leading-none sm:text-5xl">
@@ -176,20 +176,41 @@ export default function Wheel({
       </div>
 
       {/* Ruleta */}
-      <div className="relative -mt-1 min-w-0 w-full max-w-[500px]">
+      <div
+        className="relative -mt-1 min-w-0 w-full max-w-[500px] aspect-square"
+        onClick={spinWheel}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            spinWheel();
+          }
+        }}
+        role="button"
+        tabIndex={options.length < 2 || isSpinning ? -1 : 0}
+        aria-label={
+          options.length < 2
+            ? "Agrega otra opción para girar la ruleta"
+            : "Girar la ruleta"
+        }
+        aria-disabled={options.length < 2 || isSpinning}
+      >
         <motion.div
           animate={{ rotate: rotation }}
           transition={{
             duration: 4.5,
             ease: [0.12, 0.8, 0.25, 1],
           }}
-          className="w-full"
+          className={`absolute inset-0 origin-center ${
+            options.length < 2 || isSpinning
+              ? "cursor-not-allowed"
+              : "cursor-pointer"
+          }`}
         >
           <svg
             width="100%"
             height="100%"
             viewBox={`0 0 ${SIZE} ${SIZE}`}
-            className="h-auto w-full max-w-[500px] drop-shadow-2xl"
+            className="h-full w-full drop-shadow-2xl"
           >
             {options.map((option, index) => {
               const startAngle = index * slice;
@@ -304,19 +325,6 @@ export default function Wheel({
           </svg>
         </motion.div>
       </div>
-
-      {/* Botón */}
-      <button
-        onClick={spinWheel}
-        disabled={isSpinning || options.length < 2}
-        className="mt-10 rounded-xl bg-indigo-600 px-10 py-3 text-lg font-semibold text-white shadow-lg transition hover:bg-indigo-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {isSpinning
-          ? "Girando..."
-          : options.length < 2
-            ? "Agrega otra opción"
-            : "Girar"}
-      </button>
     </div>
   );
 }

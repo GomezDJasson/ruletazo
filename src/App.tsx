@@ -87,7 +87,7 @@ function App() {
   } = useSound();
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 transition-colors duration-300 dark:bg-black dark:text-gray-100">
+    <div className="min-h-screen bg-slate-50 text-gray-900 transition-colors duration-300 dark:bg-black dark:text-gray-100">
       <main className="mx-auto max-w-6xl px-4 sm:px-6">
 
         <Header

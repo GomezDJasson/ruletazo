@@ -35,7 +35,7 @@ export default function Header({
         {/* Sonido */}
         <button
           onClick={onToggleSound}
-          className="rounded-xl border border-gray-200 bg-white p-2.5 text-gray-600 shadow-sm transition hover:bg-gray-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-gray-300 dark:hover:bg-zinc-800"
+          className="rounded-xl border border-gray-200 bg-white p-2.5 text-gray-600 shadow-sm transition hover:border-gray-300 hover:bg-gray-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-gray-300 dark:hover:bg-zinc-800"
           aria-label={
             soundEnabled
               ? "Desactivar sonido"
@@ -57,7 +57,7 @@ export default function Header({
         {/* Tema */}
         <button
           onClick={onToggleTheme}
-          className="rounded-xl border border-gray-200 bg-white p-2.5 text-gray-600 shadow-sm transition hover:bg-gray-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-gray-300 dark:hover:bg-zinc-800"
+          className="rounded-xl border border-gray-200 bg-white p-2.5 text-gray-600 shadow-sm transition hover:border-gray-300hover:bg-gray-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-gray-300 dark:hover:bg-zinc-800"
           aria-label={
             darkMode
               ? "Cambiar a modo claro"

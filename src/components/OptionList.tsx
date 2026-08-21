@@ -39,7 +39,7 @@ export default function OptionList({
       {options.map((option, index) => (
         <div
           key={`${option}-${index}`}
-          className="rounded-xl border border-gray-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+          className="rounded-xl border border-gray-200 bg-white shadow-sm transiton-colors dark:border-zinc-800 dark:bg-zinc-900"
         >
           {editingIndex === index ? (
             <div className="flex items-center gap-2 p-3">

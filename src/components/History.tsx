@@ -74,7 +74,7 @@ export default function History({
           {history.map((item, index) => (
             <div
               key={item.id}
-              className="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3 dark:bg-zinc-800/70"
+              className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 dark:bg-zinc-800/70"
             >
               <div className="flex min-w-0 items-center gap-3">
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-bold text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400">

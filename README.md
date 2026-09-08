@@ -1,34 +1,38 @@
 # 🎯 Ruletazo
 
-Ruletazo es una aplicación web interactiva que permite crear una lista de opciones y seleccionar una de ellas de forma aleatoria mediante una ruleta animada.
+**Ruletazo** es una aplicación web interactiva para crear una lista de opciones y seleccionar una de ellas de forma aleatoria mediante una ruleta animada.
 
-Está pensada para situaciones en las que necesitas tomar una decisión de forma rápida y sencilla: elegir una actividad, decidir qué jugar, seleccionar una opción al azar o simplemente añadir un poco de diversión al proceso.
+Está pensada para tomar decisiones de forma rápida y sencilla: elegir una actividad, decidir qué jugar, seleccionar una opción al azar o simplemente añadir un poco de diversión al proceso.
+
+## 🚀 Demo
+
+🔗 **[Probar Ruletazo](https://ruletazo-ten.vercel.app/)**
 
 ## ✨ Características
 
-* 🎡 Ruleta interactiva con animaciones.
-* ➕ Agregar y eliminar opciones.
-* 🎯 Selección aleatoria de un ganador.
-* 🏆 Modal con el resultado seleccionado.
-* 🔊 Efectos de sonido durante el giro.
-* 🔇 Control para activar o desactivar los sonidos.
-* 📜 Historial de resultados.
-* 💾 Persistencia de opciones mediante `localStorage`.
-* 📱 Diseño responsive para desktop, tablet y dispositivos móviles.
-* 🌙 Soporte para tema claro y oscuro.
-* ⚡ Interfaz rápida y fluida.
-* 🎨 Segmentos y texto de la ruleta generados dinámicamente según la cantidad de opciones.
+- 🎡 Ruleta interactiva con animaciones.
+- ➕ Agregar y eliminar opciones.
+- 🎯 Selección aleatoria de un ganador.
+- 🏆 Modal con el resultado seleccionado.
+- 🔊 Efectos de sonido durante el giro.
+- 🔇 Control para activar o desactivar los sonidos.
+- 📜 Historial de resultados.
+- 💾 Persistencia de opciones mediante `localStorage`.
+- 📱 Diseño responsive para desktop, tablet y dispositivos móviles.
+- 🌙 Soporte para tema claro y oscuro.
+- ⚡ Interfaz rápida y fluida.
+- 🎨 Segmentos y texto de la ruleta generados dinámicamente según la cantidad de opciones.
 
 ## 🛠️ Tecnologías
 
-* **React**
-* **TypeScript**
-* **Vite**
-* **Tailwind CSS**
-* **Framer Motion**
-* **Lucide React**
-* **Web Audio API**
-* **LocalStorage**
+- **React**
+- **TypeScript**
+- **Vite**
+- **Tailwind CSS**
+- **Framer Motion**
+- **Lucide React**
+- **Web Audio API**
+- **LocalStorage**
 
 ## 📂 Estructura del proyecto
 
@@ -52,6 +56,38 @@ src/
 ```
 
 La aplicación está organizada por responsabilidades para facilitar su mantenimiento y evolución.
+
+## 🧠 Aspectos técnicos destacados
+
+### Ruleta dinámica
+
+Los segmentos de la ruleta se generan dinámicamente a partir de las opciones introducidas por el usuario. La distribución se recalcula automáticamente al agregar o eliminar opciones.
+
+### Selección aleatoria
+
+El ganador se determina mediante un índice aleatorio asociado a las opciones actuales.
+
+### Persistencia
+
+Las opciones se almacenan utilizando `localStorage`, permitiendo conservarlas después de recargar la página.
+
+### Animaciones
+
+**Framer Motion** se utiliza para controlar la animación de giro y proporcionar una experiencia más fluida.
+
+### Sonido
+
+Los efectos de sonido utilizan la **Web Audio API**, evitando depender de archivos de audio externos.
+
+## 📱 Responsive Design
+
+Ruletazo está diseñado para adaptarse a diferentes tamaños de pantalla:
+
+- 💻 Desktop
+- 📱 Tablet
+- 📱 Mobile
+
+La ruleta adapta su tamaño al espacio disponible y mantiene la legibilidad de las opciones incluso cuando aumenta el número de segmentos.
 
 ## 🚀 Instalación
 
@@ -79,7 +115,7 @@ Inicia el servidor de desarrollo:
 npm run dev
 ```
 
-La aplicación estará disponible en la URL indicada por Vite, normalmente:
+La aplicación estará disponible normalmente en:
 
 ```text
 http://localhost:5173
@@ -93,54 +129,15 @@ Para comprobar que el proyecto puede compilarse correctamente:
 npm run build
 ```
 
-Para ejecutar la versión de producción localmente:
+Para ejecutar una previsualización de producción:
 
 ```bash
 npm run preview
 ```
 
-## 📱 Responsive Design
-
-Ruletazo está diseñado para funcionar en diferentes tamaños de pantalla.
-
-La interfaz ha sido probada en:
-
-* 💻 Desktop
-* 📱 Mobile
-
-La ruleta adapta su tamaño al espacio disponible y mantiene la legibilidad de las opciones incluso cuando aumenta el número de segmentos.
-
-## 🧠 Aspectos técnicos destacados
-
-### Ruleta dinámica
-
-Los segmentos de la ruleta se generan dinámicamente a partir de las opciones introducidas por el usuario.
-
-La distribución se recalcula automáticamente al agregar o eliminar opciones.
-
-### Selección aleatoria
-
-El ganador se determina mediante un índice aleatorio asociado a las opciones actuales.
-
-### Persistencia
-
-Las opciones se almacenan utilizando `localStorage`, permitiendo conservarlas después de recargar la página.
-
-### Animaciones
-
-Framer Motion se utiliza para controlar la animación de giro y proporcionar una experiencia más fluida.
-
-### Sonido
-
-Los efectos de sonido utilizan la Web Audio API, evitando depender de archivos de audio externos.
-
 ## 📸 Capturas
 
-> Próximamente se añadirán capturas de la aplicación en desktop y mobile.
-
-## 🔗 Demo
-
-> Próximamente disponible.
+Las capturas del proyecto pueden añadirse posteriormente para mostrar la experiencia de uso en desktop y mobile.
 
 ## 👨‍💻 Autor
 
@@ -148,7 +145,7 @@ Los efectos de sonido utilizan la Web Audio API, evitando depender de archivos d
 
 Desarrollador enfocado en construir aplicaciones web modernas, funcionales y responsive.
 
-* GitHub: [@GomezDJasson](https://github.com/GomezDJasson)
+- GitHub: [@GomezDJasson](https://github.com/GomezDJasson)
 
 ---
 

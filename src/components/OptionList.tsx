@@ -35,7 +35,7 @@ export default function OptionList({
   };
 
   return (
-    <div className="options-scroll mt-6 space-y-2 lg:max-h-[calc(100vh-390px)] lg:overflow-y-auto lg:pr-2">
+    <div className="options-scroll mt-6 max-h-64 space-y-2 overflow-y-auto pr-2 sm:max-h-80 lg:max-h-[calc(100vh-470px)]">
       {options.map((option, index) => (
         <div
           key={`${option}-${index}`}
@@ -80,13 +80,13 @@ export default function OptionList({
               </button>
             </div>
           ) : (
-            <div className="flex items-center justify-between px-4 py-3">
+            <div className="flex min-w-0 items-center justify-between gap-2 px-3 py-3">
               <div className="flex min-w-0 items-center gap-3">
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-bold text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400">
                   {index + 1}
                 </span>
 
-                <span className="truncate font-medium text-gray-700 dark:text-gray-200">
+                <span className="min-w-0 flex-1 break-words font-medium text-gray-700 dark:text-gray-200">
                   {option}
                 </span>
               </div>

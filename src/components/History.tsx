@@ -70,7 +70,7 @@ export default function History({
           </p>
         </div>
       ) : (
-        <div className="space-y-2">
+        <div className="max-h-72 space-y-2 overflow-y-auto pr-2 sm:max-h-96 lg:max-h-[60vh]">
           {history.map((item, index) => (
             <div
               key={item.id}
@@ -89,6 +89,12 @@ export default function History({
                   <p className="text-xs text-gray-400 dark:text-gray-500">
                     {formatDate(item.date)}
                   </p>
+
+                  {item.rouletteName && (
+                    <p className="mt-1 truncate text-xs font-medium text-indigo-500 dark:text-indigo-400">
+                      Ruleta: {item.rouletteName}
+                    </p>
+                  )}
                 </div>
               </div>
 

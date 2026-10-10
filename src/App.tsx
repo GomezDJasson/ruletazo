@@ -17,6 +17,29 @@ import RouletteSelector from "./components/RouletteSelector";
 const ROULETTES_KEY = "ruletazo-roulettes";
 const SELECTED_ROULETTE_KEY = "ruletazo-selected-roulette";
 
+
+function isRouletteArray(
+  value: unknown
+): value is Roulette[] {
+  return (
+    Array.isArray(value) &&
+    value.length > 0 &&
+    value.every(
+      (roulette) =>
+        typeof roulette === "object" &&
+        roulette !== null &&
+        typeof roulette.id === "string" &&
+        roulette.id.length > 0 &&
+        typeof roulette.name === "string" &&
+        Array.isArray(roulette.options) &&
+        roulette.options.every(
+          (option: unknown) =>
+            typeof option === "string"
+        )
+    )
+  );
+}
+
 function getInitialRoulettes(): Roulette[] {
 try {
 const savedRoulettes = localStorage.getItem(ROULETTES_KEY);
@@ -63,7 +86,8 @@ options: [],
 function App() {
 const [roulettes, setRoulettes] = useLocalStorage<Roulette[]>(
 ROULETTES_KEY,
-getInitialRoulettes()
+getInitialRoulettes(),
+isRouletteArray
 );
 
 

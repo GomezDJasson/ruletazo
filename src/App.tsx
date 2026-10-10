@@ -66,14 +66,13 @@ ROULETTES_KEY,
 getInitialRoulettes()
 );
 
+
 const [selectedRouletteId, setSelectedRouletteId] = useState(() => {
-const savedId = localStorage.getItem(SELECTED_ROULETTE_KEY);
-const initialRoulettes = getInitialRoulettes();
+  const savedId = localStorage.getItem(SELECTED_ROULETTE_KEY);
 
-return initialRoulettes.some((roulette) => roulette.id === savedId)
-  ? savedId!
-  : initialRoulettes[0].id;
-
+  return roulettes.some((roulette) => roulette.id === savedId)
+    ? savedId!
+    : roulettes[0].id;
 });
 
 const selectedRoulette =
@@ -239,7 +238,8 @@ return ( <div className="min-h-screen bg-slate-50 text-gray-900 transition-color
             addResult(
               result,
               selectedRoulette?.id,
-              selectedRoulette?.name
+              selectedRoulette?.name,
+              roulettes[0]?.id
             );
 
             setWinner(result);

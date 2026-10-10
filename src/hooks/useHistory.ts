@@ -9,8 +9,13 @@ export function useHistory() {
     []
   );
 
-  const addResult = (option: string, rouletteId?: string,
-    rouletteName?: string) => {
+  
+  const addResult = (
+    option: string,
+    rouletteId?: string,
+    rouletteName?: string,
+    legacyRouletteId?: string
+  ) => {
     const newResult: HistoryItem = {
       id: crypto.randomUUID(),
       option,
@@ -19,10 +24,22 @@ export function useHistory() {
       rouletteName,
     };
 
-    setHistory((currentHistory) => [
-      newResult,
-      ...currentHistory,
-    ].slice(0, MAX_HISTORY));
+    setHistory((currentHistory) => {
+      let rouletteCount = 0;
+
+      return [newResult, ...currentHistory].filter((item) => {
+        const belongsToRoulette =
+          item.rouletteId === rouletteId ||
+          (!item.rouletteId && rouletteId === legacyRouletteId);
+
+        if (!belongsToRoulette) {
+          return true;
+        }
+
+        rouletteCount += 1;
+        return rouletteCount <= MAX_HISTORY;
+      });
+    });
   };
 
   const clearHistory = (

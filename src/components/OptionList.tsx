@@ -5,17 +5,21 @@ interface OptionListProps {
   options: string[];
   onRemove: (index: number) => void;
   onEdit: (index: number, value: string) => void;
+  disabled?: boolean;
 }
 
 export default function OptionList({
   options,
   onRemove,
   onEdit,
+  disabled = false,
 }: OptionListProps) {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editValue, setEditValue] = useState("");
 
   const startEditing = (index: number) => {
+    if (disabled) return;
+
     setEditingIndex(index);
     setEditValue(options[index]);
   };
@@ -26,6 +30,8 @@ export default function OptionList({
   };
 
   const saveEditing = (index: number) => {
+    if (disabled) return;
+
     const value = editValue.trim();
 
     if (!value) return;
@@ -46,6 +52,7 @@ export default function OptionList({
               <input
                 type="text"
                 value={editValue}
+                disabled={disabled}
                 onChange={(event) =>
                   setEditValue(event.target.value)
                 }
@@ -65,7 +72,8 @@ export default function OptionList({
 
               <button
                 onClick={() => saveEditing(index)}
-                className="rounded-lg p-2 text-green-600 transition hover:bg-green-50 dark:hover:bg-green-500/10"
+                disabled={disabled}
+                className="rounded-lg p-2 text-green-600 transition hover:bg-green-50 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-green-500/10"
                 aria-label="Guardar"
               >
                 <Check size={18} />
@@ -73,7 +81,8 @@ export default function OptionList({
 
               <button
                 onClick={cancelEditing}
-                className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-100 dark:hover:bg-zinc-800"
+                disabled={disabled}
+                className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-zinc-800"
                 aria-label="Cancelar"
               >
                 <X size={18} />
@@ -94,7 +103,8 @@ export default function OptionList({
               <div className="flex shrink-0 items-center gap-1">
                 <button
                   onClick={() => startEditing(index)}
-                  className="rounded-lg p-2 text-gray-400 transition hover:bg-indigo-50 hover:text-indigo-500 dark:hover:bg-indigo-500/10"
+                  disabled={disabled}
+                  className="rounded-lg p-2 text-gray-400 transition hover:bg-indigo-50 hover:text-indigo-500 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-indigo-500/10"
                   aria-label={`Editar ${option}`}
                 >
                   <Pencil size={18} />
@@ -102,7 +112,8 @@ export default function OptionList({
 
                 <button
                   onClick={() => onRemove(index)}
-                  className="rounded-lg p-2 text-gray-400 transition hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-500/10"
+                  disabled={disabled}
+                  className="rounded-lg p-2 text-gray-400 transition hover:bg-red-50 hover:text-red-500 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-red-500/10"
                   aria-label={`Eliminar ${option}`}
                 >
                   <Trash2 size={18} />

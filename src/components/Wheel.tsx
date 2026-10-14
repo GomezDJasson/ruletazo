@@ -24,9 +24,20 @@ export default function Wheel({
 }: WheelProps) {
   const [rotation, setRotation] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
+  const [spinOptions, setSpinOptions] = useState<string[] | null>(null);
 
   const tickIntervalRef = useRef<number | null>(null);
   const spinTimeoutRef = useRef<number | null>(null);
+
+  /*
+   * Durante el giro usamos una copia de las opciones
+   * para que los segmentos no cambien a mitad de la animación.
+   */
+  const displayedOptions =
+    isSpinning && spinOptions !== null ? spinOptions : options;
+
+  const slice =
+    displayedOptions.length > 0 ? 360 / displayedOptions.length : 0;
 
   /*
    * Sonido de la ruleta mientras gira.
@@ -47,7 +58,6 @@ export default function Wheel({
       playTick();
 
       delay = Math.min(delay + 12, 220);
-
       tickIntervalRef.current = window.setTimeout(tick, delay);
     };
 
@@ -62,8 +72,7 @@ export default function Wheel({
   }, [isSpinning, soundEnabled, playTick]);
 
   /*
-   * Limpieza del timeout si el componente se desmonta
-   * mientras la ruleta está girando.
+   * Limpieza de los temporizadores al desmontar el componente.
    */
   useEffect(() => {
     return () => {
@@ -78,70 +87,52 @@ export default function Wheel({
   }, []);
 
   /*
-   * No intentamos calcular segmentos si la ruleta está vacía.
+   * Iniciar giro.
    */
-  const slice = options.length > 0 ? 360 / options.length : 0;
-
   const spinWheel = () => {
     if (isSpinning || options.length < 2) return;
+
+    // Guardamos las opciones exactas de este giro.
+    const optionsAtSpin = [...options];
+    const spinSlice = 360 / optionsAtSpin.length;
+
+    setSpinOptions(optionsAtSpin);
+    setIsSpinning(true);
 
     if (soundEnabled) {
       playClick();
     }
 
-    setIsSpinning(true);
+    // Elegimos al ganador usando la copia guardada.
+    const winnerIndex = Math.floor(
+      Math.random() * optionsAtSpin.length
+    );
 
-    /*
-     * Elegimos aleatoriamente el ganador.
-     */
-    const winnerIndex = Math.floor(Math.random() * options.length);
+    // Centro del segmento ganador.
+    const winnerAngle = winnerIndex * spinSlice + spinSlice / 2;
 
-    /*
-     * Ángulo central del segmento ganador.
-     *
-     * Cada segmento comienza en:
-     * index * slice
-     *
-     * Por lo tanto, su centro está en:
-     * index * slice + slice / 2
-     */
-    const winnerAngle = winnerIndex * slice + slice / 2;
+    // Normalizamos la rotación actual entre 0 y 360.
+    const currentRotation = ((rotation % 360) + 360) % 360;
 
-    /*
-     * Normalizamos la rotación actual entre 0 y 360.
-     */
-    const currentRotation =
-      ((rotation % 360) + 360) % 360;
-
-    /*
-     * Queremos que el centro del segmento ganador
-     * termine exactamente debajo del indicador superior.
-     *
-     * El indicador está en 0°.
-     */
+    // Calculamos cuánto falta para alinear el ganador
+    // con el indicador superior.
     const correction =
       (360 - ((currentRotation + winnerAngle) % 360)) % 360;
 
-    /*
-     * Cinco vueltas completas antes de llegar
-     * al segmento ganador.
-     */
+    // Cinco vueltas completas antes de detenerse.
     const extraSpins = 5 * 360;
-
-    const targetRotation =
-      rotation + extraSpins + correction;
+    const targetRotation = rotation + extraSpins + correction;
 
     setRotation(targetRotation);
 
-    /*
-     * Esperamos exactamente lo mismo que dura
-     * la animación de Framer Motion.
-     */
+    // La animación dura 4,5 segundos.
     spinTimeoutRef.current = window.setTimeout(() => {
-      const selectedWinner = options[winnerIndex];
+      const selectedWinner = optionsAtSpin[winnerIndex];
 
       onSpinComplete(selectedWinner);
+
       setIsSpinning(false);
+      setSpinOptions(null);
       spinTimeoutRef.current = null;
     }, 4500);
   };
@@ -149,12 +140,10 @@ export default function Wheel({
   /*
    * Estado vacío.
    */
-  if (options.length === 0) {
+  if (displayedOptions.length === 0) {
     return (
       <div className="flex min-h-[500px] flex-col items-center justify-center text-center">
-        <div className="mb-4 text-6xl">
-          🎡
-        </div>
+        <div className="mb-4 text-6xl">🎡</div>
 
         <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
           Tu ruleta está vacía
@@ -169,7 +158,6 @@ export default function Wheel({
 
   return (
     <div className="flex min-w-0 flex-col items-center py-10 lg:py-4">
-
       {/* Indicador */}
       <div className="relative z-10 text-4xl leading-none sm:text-5xl">
         ▼
@@ -212,17 +200,10 @@ export default function Wheel({
             viewBox={`0 0 ${SIZE} ${SIZE}`}
             className="h-full w-full drop-shadow-2xl"
           >
-            {options.map((option, index) => {
+            {displayedOptions.map((option, index) => {
               const startAngle = index * slice;
               const endAngle = startAngle + slice;
-
-              // Ángulo central del segmento
               const textAngle = startAngle + slice / 2;
-
-              /*
-              * El texto comienza cerca del centro
-              * y se extiende hacia el borde.
-              */
               const textRadius = 95;
 
               const textPosition = polarToCartesian(
@@ -232,27 +213,15 @@ export default function Wheel({
                 textAngle
               );
 
-              /*
-              * Reducimos el tamaño cuando existen
-              * muchas opciones.
-              */
               const textSize =
-                options.length <= 8
+                displayedOptions.length <= 8
                   ? 18
-                  : options.length <= 12
+                  : displayedOptions.length <= 12
                     ? 16
-                    : options.length <= 20
+                    : displayedOptions.length <= 20
                       ? 14
                       : 11;
 
-              /*
-              * IMPORTANTE:
-              *
-              * polarToCartesian() considera 0° hacia arriba,
-              * mientras que SVG considera 0° hacia la derecha.
-              *
-              * Por eso debemos restar 90°.
-              */
               let textRotation = textAngle - 90;
               let textAnchor: "start" | "end" = "start";
 
@@ -272,11 +241,7 @@ export default function Wheel({
                       startAngle,
                       endAngle
                     )}
-                    fill={
-                      wheelColors[
-                        index % wheelColors.length
-                      ]
-                    }
+                    fill={wheelColors[index % wheelColors.length]}
                     stroke="white"
                     strokeWidth={3}
                   />
@@ -290,13 +255,7 @@ export default function Wheel({
                     fontWeight="600"
                     textAnchor={textAnchor}
                     dominantBaseline="middle"
-                    transform={`
-                      rotate(
-                        ${textRotation}
-                        ${textPosition.x}
-                        ${textPosition.y}
-                      )
-                    `}
+                    transform={`rotate(${textRotation} ${textPosition.x} ${textPosition.y})`}
                     className="pointer-events-none select-none"
                   >
                     {option}
@@ -312,7 +271,7 @@ export default function Wheel({
               r="35"
               fill="white"
               stroke="#4f46e5"
-              strokeWidth="5"
+              strokeWidth={5}
               className="dark:fill-zinc-900"
             />
 

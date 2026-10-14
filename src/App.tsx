@@ -47,8 +47,8 @@ const savedRoulettes = localStorage.getItem(ROULETTES_KEY);
 if (savedRoulettes !== null) {
   const parsed: unknown = JSON.parse(savedRoulettes);
 
-  if (Array.isArray(parsed) && parsed.length > 0) {
-    return parsed as Roulette[];
+  if (isRouletteArray(parsed)) {
+    return parsed;
   }
 }
 

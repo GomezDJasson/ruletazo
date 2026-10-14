@@ -1,38 +1,35 @@
 # 🎯 Ruletazo
 
-**Ruletazo** es una aplicación web interactiva para crear una lista de opciones y seleccionar una de ellas de forma aleatoria mediante una ruleta animada.
-
-Está pensada para tomar decisiones de forma rápida y sencilla: elegir una actividad, decidir qué jugar, seleccionar una opción al azar o simplemente añadir un poco de diversión al proceso.
-
-## 🚀 Demo
+**Ruletazo** es una aplicación web interactiva que te ayuda a tomar decisiones de forma sencilla y divertida. Crea tus propias ruletas, agrega opciones y deja que una ruleta animada elija el resultado al azar.
 
 🔗 **[Probar Ruletazo](https://ruletazo-ten.vercel.app/)**
 
 ## ✨ Características
 
-- 🎡 Ruleta interactiva con animaciones.
-- ➕ Agregar y eliminar opciones.
-- 🎯 Selección aleatoria de un ganador.
-- 🏆 Modal con el resultado seleccionado.
-- 🔊 Efectos de sonido durante el giro.
-- 🔇 Control para activar o desactivar los sonidos.
-- 📜 Historial de resultados.
-- 💾 Persistencia de opciones mediante `localStorage`.
-- 📱 Diseño responsive para desktop, tablet y dispositivos móviles.
-- 🌙 Soporte para tema claro y oscuro.
-- ⚡ Interfaz rápida y fluida.
-- 🎨 Segmentos y texto de la ruleta generados dinámicamente según la cantidad de opciones.
+- 🎡 **Varias ruletas independientes:** crea, selecciona, renombra y elimina ruletas.
+- 🧩 **Opciones separadas por ruleta:** cada ruleta conserva su propia lista de opciones.
+- ✏️ **Gestión de opciones:** agrega, edita y elimina opciones antes de girar.
+- 🎯 **Resultado animado:** la ruleta gira durante la animación y el resultado coincide con el segmento ganador.
+- 🏆 **Modal de ganador** para destacar el resultado seleccionado.
+- 📜 **Historial por ruleta:** consulta los resultados anteriores de cada una y limpia su historial de forma independiente.
+- 💾 **Persistencia local:** ruletas, opciones, tema e historial se guardan en el navegador mediante `localStorage`.
+- 🔊 **Efectos de sonido** con control para activarlos o desactivarlos.
+- 🎉 **Confeti** al mostrar el resultado.
+- 🌗 **Tema claro y oscuro.**
+- 📱 **Diseño responsive** para computadoras, tabletas y móviles.
+- 📚 **Paneles con desplazamiento propio** para mantener organizadas las listas largas de opciones y el historial.
 
 ## 🛠️ Tecnologías
 
-- **React**
-- **TypeScript**
-- **Vite**
-- **Tailwind CSS**
-- **Framer Motion**
-- **Lucide React**
-- **Web Audio API**
-- **LocalStorage**
+- **React 19** — interfaz basada en componentes.
+- **TypeScript** — tipado estático.
+- **Vite** — servidor de desarrollo y compilación.
+- **Tailwind CSS 4** — estilos y diseño responsive.
+- **Framer Motion** — animaciones.
+- **Lucide React** — iconos.
+- **canvas-confetti** — efecto de confeti.
+- **Web Audio API** — efectos de sonido.
+- **LocalStorage** — persistencia de datos en el navegador.
 
 ## 📂 Estructura del proyecto
 
@@ -44,109 +41,109 @@ src/
 │   ├── History.tsx
 │   ├── OptionForm.tsx
 │   ├── OptionList.tsx
+│   ├── RouletteSelector.tsx
 │   ├── Wheel.tsx
 │   └── WinnerModal.tsx
 ├── hooks/
+│   ├── useConfetti.ts
+│   ├── useHistory.ts
+│   ├── useLocalStorage.ts
+│   └── useSound.ts
 ├── types/
+│   └── index.ts
 ├── utils/
+│   ├── colors.ts
+│   └── wheel.ts
 ├── App.tsx
 ├── App.css
 ├── index.css
 └── main.tsx
 ```
 
-La aplicación está organizada por responsabilidades para facilitar su mantenimiento y evolución.
+## 🧠 Detalles de implementación
 
-## 🧠 Aspectos técnicos destacados
+### Ruletas independientes
 
-### Ruleta dinámica
+El selector permite administrar varias ruletas. Cada una tiene un identificador, un nombre y sus propias opciones. La selección actual se conserva al volver a abrir la aplicación.
 
-Los segmentos de la ruleta se generan dinámicamente a partir de las opciones introducidas por el usuario. La distribución se recalcula automáticamente al agregar o eliminar opciones.
+### Giro y resultado
 
-### Selección aleatoria
+Los segmentos se calculan a partir de las opciones de la ruleta activa. Durante el giro, las opciones se mantienen estables y el resultado final corresponde al segmento señalado por la ruleta.
 
-El ganador se determina mediante un índice aleatorio asociado a las opciones actuales.
+### Historial por ruleta
 
-### Persistencia
+Los resultados se guardan asociados a la ruleta que los generó. Cada historial conserva hasta 20 resultados, evitando que crezca indefinidamente.
 
-Las opciones se almacenan utilizando `localStorage`, permitiendo conservarlas después de recargar la página.
+### Guardado local
 
-### Animaciones
+La aplicación usa `localStorage` para conservar los datos en el mismo navegador y dispositivo. No requiere una cuenta para usar sus funciones principales. Los datos locales no se sincronizan automáticamente entre dispositivos o navegadores.
 
-**Framer Motion** se utiliza para controlar la animación de giro y proporcionar una experiencia más fluida.
+### Accesibilidad visual y adaptación
 
-### Sonido
+La interfaz ofrece tema claro y oscuro, controles para administrar las ruletas y listas con desplazamiento propio para facilitar el uso tanto en pantallas grandes como pequeñas.
 
-Los efectos de sonido utilizan la **Web Audio API**, evitando depender de archivos de audio externos.
+## 🚀 Instalación y uso local
 
-## 📱 Responsive Design
+Necesitas tener instalado **Node.js** y **npm**.
 
-Ruletazo está diseñado para adaptarse a diferentes tamaños de pantalla:
+1. Clona el repositorio:
 
-- 💻 Desktop
-- 📱 Tablet
-- 📱 Mobile
+   ```bash
+   git clone https://github.com/GomezDJasson/ruletazo.git
+   ```
 
-La ruleta adapta su tamaño al espacio disponible y mantiene la legibilidad de las opciones incluso cuando aumenta el número de segmentos.
+2. Entra en la carpeta:
 
-## 🚀 Instalación
+   ```bash
+   cd ruletazo
+   ```
 
-Clona el repositorio:
+3. Instala las dependencias:
+
+   ```bash
+   npm install
+   ```
+
+4. Inicia el servidor de desarrollo:
+
+   ```bash
+   npm run dev
+   ```
+
+   Vite mostrará en la terminal la dirección local para abrir la aplicación, normalmente `http://localhost:5173`.
+
+## 🧪 Comprobaciones y compilación
+
+Ejecuta ESLint para revisar el código:
 
 ```bash
-git clone https://github.com/GomezDJasson/ruletazo.git
+npm run lint
 ```
 
-Entra al proyecto:
-
-```bash
-cd ruletazo
-```
-
-Instala las dependencias:
-
-```bash
-npm install
-```
-
-Inicia el servidor de desarrollo:
-
-```bash
-npm run dev
-```
-
-La aplicación estará disponible normalmente en:
-
-```text
-http://localhost:5173
-```
-
-## 🏗️ Build de producción
-
-Para comprobar que el proyecto puede compilarse correctamente:
+Genera la compilación de producción:
 
 ```bash
 npm run build
 ```
 
-Para ejecutar una previsualización de producción:
+Para previsualizar la compilación localmente:
 
 ```bash
 npm run preview
 ```
 
-## 📸 Capturas
+## 🌐 Demo
 
-Las capturas del proyecto pueden añadirse posteriormente para mostrar la experiencia de uso en desktop y mobile.
+La versión publicada está disponible en Vercel:
+
+**[ruletazo-ten.vercel.app](https://ruletazo-ten.vercel.app/)**
 
 ## 👨‍💻 Autor
 
 **Jasson D. Gomez**
 
-Desarrollador enfocado en construir aplicaciones web modernas, funcionales y responsive.
-
 - GitHub: [@GomezDJasson](https://github.com/GomezDJasson)
 
 ---
 
-⭐ Si te gusta el proyecto, considera darle una estrella al repositorio.
+Si Ruletazo te resulta útil, puedes apoyar el proyecto dándole una ⭐ en GitHub.

@@ -8,6 +8,7 @@ interface WheelProps {
   soundEnabled: boolean;
   playClick: () => void;
   playTick: () => void;
+  onSpinningChange: (isSpinning: boolean) => void;
   onSpinComplete: (winner: string) => void;
 }
 
@@ -20,6 +21,7 @@ export default function Wheel({
   soundEnabled,
   playClick,
   playTick,
+  onSpinningChange,
   onSpinComplete,
 }: WheelProps) {
   const [rotation, setRotation] = useState(0);
@@ -98,6 +100,7 @@ export default function Wheel({
 
     setSpinOptions(optionsAtSpin);
     setIsSpinning(true);
+    onSpinningChange(true);
 
     if (soundEnabled) {
       playClick();
@@ -132,6 +135,7 @@ export default function Wheel({
       onSpinComplete(selectedWinner);
 
       setIsSpinning(false);
+      onSpinningChange(false);
       setSpinOptions(null);
       spinTimeoutRef.current = null;
     }, 4500);

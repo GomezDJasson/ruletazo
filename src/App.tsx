@@ -104,6 +104,7 @@ roulettes.find((roulette) => roulette.id === selectedRouletteId) ??
 roulettes[0];
 
 const options = selectedRoulette?.options ?? [];
+const [isSpinning, setIsSpinning] = useState(false);
 
 useEffect(() => {
   if (selectedRoulette) {
@@ -150,7 +151,7 @@ setDarkMode((current) => !current);
 const updateSelectedOptions = (
 update: (currentOptions: string[]) => string[]
 ) => {
-if (!selectedRoulette) return;
+if (isSpinning || !selectedRoulette) return;
 
 
 setRoulettes((currentRoulettes) =>
@@ -165,6 +166,8 @@ setRoulettes((currentRoulettes) =>
 };
 
 const addOption = (option: string) => {
+if (isSpinning) return;
+
 updateSelectedOptions((currentOptions) => [
 ...currentOptions,
 option,
@@ -172,12 +175,16 @@ option,
 };
 
 const removeOption = (index: number) => {
+if (isSpinning) return;
+
 updateSelectedOptions((currentOptions) =>
 currentOptions.filter((_, i) => i !== index)
 );
 };
 
 const editOption = (index: number, value: string) => {
+if (isSpinning) return;
+
 updateSelectedOptions((currentOptions) =>
 currentOptions.map((option, i) =>
 i === index ? value : option
@@ -186,6 +193,8 @@ i === index ? value : option
 };
 
 const createRoulette = (name: string) => {
+if (isSpinning) return;
+
 const newRoulette: Roulette = {
 id: crypto.randomUUID(),
 name,
@@ -204,6 +213,8 @@ setSelectedRouletteId(newRoulette.id);
 };
 
 const renameRoulette = (id: string, name: string) => {
+if (isSpinning) return;
+
 setRoulettes((currentRoulettes) =>
 currentRoulettes.map((roulette) =>
 roulette.id === id ? { ...roulette, name } : roulette
@@ -212,7 +223,7 @@ roulette.id === id ? { ...roulette, name } : roulette
 };
 
 const deleteRoulette = (id: string) => {
-if (roulettes.length <= 1) return;
+if (isSpinning || roulettes.length <= 1) return;
 
 const remainingRoulettes = roulettes.filter(
   (roulette) => roulette.id !== id
@@ -258,6 +269,7 @@ return ( <div className="min-h-screen bg-slate-50 text-gray-900 transition-color
           soundEnabled={soundEnabled}
           playClick={playClick}
           playTick={playTick}
+          onSpinningChange={setIsSpinning}
           onSpinComplete={(result) => {
             addResult(
               result,
@@ -286,6 +298,7 @@ return ( <div className="min-h-screen bg-slate-50 text-gray-900 transition-color
           onCreate={createRoulette}
           onRename={renameRoulette}
           onDelete={deleteRoulette}
+          isSpinning={isSpinning}
         />
 
         <div className="mb-5 flex items-center gap-3">
@@ -304,12 +317,13 @@ return ( <div className="min-h-screen bg-slate-50 text-gray-900 transition-color
           </div>
         </div>
 
-        <OptionForm onAdd={addOption} />
+        <OptionForm onAdd={addOption} disabled={isSpinning} />
 
         <OptionList
           options={options}
           onRemove={removeOption}
           onEdit={editOption}
+          disabled={isSpinning}
         />
       </aside>
     </section>
